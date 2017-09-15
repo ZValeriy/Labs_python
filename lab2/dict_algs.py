@@ -26,13 +26,15 @@ emps = [ivan, darja]
 
 
 def findch(list):
+    flist = []
     for i in emps:
         for j in i['children']:
             if j['age'] > 18:
-                print(i['name'])
-    return
+                flist.append(i)
+                break
+    return flist
 
 
-findch(emps)
+print(*findch(emps))
 
 
