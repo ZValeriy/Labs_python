@@ -1,0 +1,35 @@
+{% extends "./pages/base.html" %}
+{% load static %}
+{% block title %} Регистрация {% endblock %}
+        {% block body %}
+            <form name="reg-form" class="reg-form" action="" method="post">
+
+                <div class="header">
+                    <h1>Регистрация</h1>
+                    <span>Заполните поля для регистрации</span>
+                </div>
+
+                <div class="content">
+                    <p>Введите логин</p>
+                    <input name="username" type="text" autofocus required class="input username" value="Логин" onfocus="this.value=''" />
+                    <p>Введите e-mail</p>
+                    <input name="email" type="text" autofocus required pattern="\S+@+[a-z]+.+[a-z]+" class="input email" value="e-mail" onfocus="this.value=''" />
+
+                    <p>Введите имя</p>
+                    <input name="f_name" type="text" autofocus required class="input username" value="Имя" onfocus="this.value=''" />
+                    <p>Введите фамилию</p>
+                    <input name="l_name" type="text" autofocus required class="input username" value="Фамилия" onfocus="this.value=''" />
+
+                    <p>Введите пароль</p>
+                    <input name="password" type="password" autofocus required class="input password" value="Пароль" onfocus="this.value=''" />
+                    <p>Повторите пароль</p>
+                    <input name="passwordrep" type="password" autofocus required class="input password" value="Пароль" onfocus="this.value=''" />
+                </div>
+
+                <div class="footer">
+                    <input type="submit" name="submit" value="РЕГИСТРАЦИЯ" class="button" />
+                    <a href="{% url 'login' %}" class="register">Войти</a>
+                </div>
+
+            </form>
+           {% endblock %}

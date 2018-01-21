@@ -1,0 +1,109 @@
+{% load static %}
+<meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type" />
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static "/styles.css" %}">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    </head>
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <body>
+        <div class="headerpage">
+                <div class="row">
+                        <div class="col-xs-6 col-md-8"><h2 class="font">Продажа компьютеров</h2></div>
+                    {% if not user.is_authenticated %}
+                    <div class="col-md-2">
+                        <div class="btts">
+                        <button  href="{% url 'login' %}" type="button" id="sign_in" class="buttonLog btn btn-success">Sign in</button>
+                        </div>
+                    </div>
+                        <div class="col-md-2">
+                        <div class="btts">
+                        <button  href="{% url 'signup' %}" type="button" id="sign_up" class="buttonLog btn btn-success">Sign up</button>
+                        </div>
+                        </div>
+                    {% else %}
+                    <p><h3>Привет, {{ user.username }}</h3></p>
+                        <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="buttonLog btn btn-danger">Выйти</button>
+                        </form>
+                    {% endif %}
+                </div>
+        </div>
+
+        <div class="row">
+        {% include  "./sign_in.html" %}
+        {% include "./sign_up.html" %}
+   <script type="text/javascript">
+$(document).ready(function() {
+	$('button#sign_up').click( function(event){
+		event.preventDefault();
+		$('#overlay').fadeIn(400,
+		 	function(){
+				$('#modal_form1')
+					.css('display', 'block')
+					.animate({opacity: 1, top: '35%'}, 200);
+		});
+	});
+	$('#modal_close, #overlay').click( function(){
+		$('#modal_form1')
+			.animate({opacity: 0, top: '45%'}, 200,
+				function(){
+					$(this).css('display', 'none');
+					$('#overlay').fadeOut(400);
+				}
+			);
+	});
+});
+</script>
+ <style type="text/css">
+#modal_form {
+	width: 300px;
+	height: 300px; /* Размеры должны быть фиксированы */
+	border-radius: 5px;
+	border: 3px #000 solid;
+	background: #fff;
+	position: fixed; /* чтобы окно было в видимой зоне в любом месте */
+	top: 45%; /* отступаем сверху 45%, остальные 5% подвинет скрипт */
+	left: 50%; /* половина экрана слева */
+	margin-top: -150px;
+	margin-left: -150px; /* тут вся магия центровки css, отступаем влево и вверх минус половину ширины и высоты соответственно =) */
+	display: none; /* в обычном состоянии окна не должно быть */
+	opacity: 0; /* полностью прозрачно для анимирования */
+	z-index: 5; /* окно должно быть наиболее большем слое */
+	padding: 20px 10px;
+}
+</style>
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $('button#sign_in').click( function(event){
+              event.preventDefault();
+              $('#overlay2').fadeIn(400,
+                  function(){
+                  $('#modal_form2')
+                      .css('display', 'block')
+                      .animate({opacity: 1, top: '35%'}, 200);
+              });
+          });
+          $('#modal_close2, #overlay2').click( function(){
+              $('#modal_form2')
+                  .animate({opacity: 0, top: '45%'}, 200,
+                      function(){
+                      $(this).css('display', 'none');
+                      $('#overlay2').fadeOut(400);
+                  });
+          });
+      });
+</script>
+                    {% block body %}{% endblock %}
+        </div>
+    </body>
+
+
+</html>

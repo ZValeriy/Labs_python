@@ -1,0 +1,41 @@
+{% extends "./pages/base.html" %}
+{% load static %}
+{% block title %}{{ product.nameproduct }} {% endblock %}
+{% block body %}
+    <div class="col-md-3">
+        <a href="{% url 'list_p' %}" class="back_to_list">Назад к списку</a>
+    </div>
+    <div class="col-md-6">
+    <div class="prod">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="icon_product" src={{  product.img.url }}>
+            <p><h2>Цена: {{ product.cost }} </h2></p>
+        </div>
+        <div class="col-md-8">
+            <p><h2>{{ product.nameproduct }}</h2></p>
+            <p><h4>Процессор: {{ product.processor }} </h4></p>
+            <p><h4>Размер экрана: {{ product.screen_size }}</h4></p>
+            <p><h4>Оперативная память: {{ product.gpu }} </h4></p>
+            <p><h4>Память: {{ product.memory }} </h4></p>
+        </div>
+        <p>{{ product.description }}</p>
+    </div>
+        <p>Производитель: {{ product.brand }}</p>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'order' product.id user.id %}">
+            {% csrf_token %}
+            <button type="submit" class="buttonLog btn btn-success">Зазакать</button>
+            </form>
+        {% else %}
+            <p><h3>Для заказа необходимо <button  href="{% url 'login' %}" type="button" id="sign_in" class="buttonLog btn btn-success">Войти</button> или <button  href="{% url 'signup' %}" type="button" id="sign_up" class="buttonLog btn btn-success">Зарегистрироваться</button></h3></p>
+        {% endif %}
+        <h4>Уже заказали:</h4>
+    {{ users }}
+    </div>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+
+{% endblock %}

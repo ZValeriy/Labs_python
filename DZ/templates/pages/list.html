@@ -1,0 +1,64 @@
+{%  extends './pages/base.html' %}
+{% load static %}
+{% load staticfiles %}
+<script src="{% static 'jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'infinite.min.js' %}"></script>
+{% block title %}Товары{% endblock %}
+{% block body %}
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+                    {% for product in products %}
+                        {% include "./pages/product_element.html" with product=product %}
+                    {% endfor %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+    <script src="{%  static "/script.js" %}"></script>
+
+     <script type="text/javascript">
+$(document).ready(function() {
+	$('button#add').click( function(event){
+		event.preventDefault();
+		$('#overlay3').fadeIn(400,
+		 	function(){
+				$('#modal_form3')
+					.css('display', 'block')
+					.animate({opacity: 1, top: '35%'}, 200);
+		});
+	});
+	$('#modal_close3, #overlay3').click( function(){
+		$('#modal_form3')
+			.animate({opacity: 0, top: '45%'}, 200,
+				function(){
+					$(this).css('display', 'none');
+					$('#overlay3').fadeOut(400);
+				}
+			);
+	});
+});
+</script>
+
+    </div>
+    <div class="col-md-3">
+                {% include '.\pages\create.html' %}
+    {% if user.is_superuser %}
+            <button href="{% url 'create' %}" type="button" id="add" class="buttonLog btn btn-success">Добавить объект</button>
+    {%  endif %}
+    </div>
+{%  endblock %}
